@@ -1,0 +1,155 @@
+/my-blog
+    /css
+        styles.css
+    /js
+        scripts.js
+    index.html
+    post.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Blog</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>My Blog</h1>
+    </header>
+    <main>
+        <section id="posts">
+            <!-- Blog posts will be dynamically inserted here -->
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 My Blog</p>
+    </footer>
+    <script src="js/scripts.js"></script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Post</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <h1 id="post-title">Post Title</h1>
+    </header>
+    <main>
+        <article id="post-content">
+            <!-- Blog post content will be dynamically inserted here -->
+        </article>
+    </main>
+    <footer>
+        <p>&copy; 2024 My Blog</p>
+    </footer>
+    <script src="js/scripts.js"></script>
+</body>
+</html>
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+header {
+    background: #333;
+    color: #fff;
+    padding: 1rem 0;
+    text-align: center;
+}
+
+main {
+    padding: 1rem;
+    max-width: 800px;
+    margin: 0 auto;
+    background: #fff;
+}
+
+footer {
+    text-align: center;
+    padding: 1rem 0;
+    background: #333;
+    color: #fff;
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+
+#posts {
+    margin: 1rem 0;
+}
+
+.post {
+    background: #fff;
+    margin: 1rem 0;
+    padding: 1rem;
+    border: 1px solid #ddd;
+}
+
+.post h2 {
+    margin: 0;
+}
+
+.post p {
+    margin: 0.5rem 0 0;
+}
+// Sample blog posts data
+const posts = [
+    {
+        id: 1,
+        title: 'My First Post',
+        content: 'This is the content of my first post.'
+    },
+    {
+        id: 2,
+        title: 'Another Post',
+        content: 'This is some other content for a different post.'
+    }
+];
+
+// Function to display posts on the homepage
+function displayPosts() {
+    const postsContainer = document.getElementById('posts');
+    posts.forEach(post => {
+        const postElement = document.createElement('div');
+        postElement.classList.add('post');
+        postElement.innerHTML = `
+            <h2><a href="post.html?id=${post.id}">${post.title}</a></h2>
+            <p>${post.content.substring(0, 100)}...</p>
+        `;
+        postsContainer.appendChild(postElement);
+    });
+}
+
+// Function to display a single post
+function displayPost() {
+    const params = new URLSearchParams(window.location.search);
+    const postId = params.get('id');
+    const post = posts.find(p => p.id == postId);
+
+    if (post) {
+        document.getElementById('post-title').textContent = post.title;
+        document.getElementById('post-content').innerHTML = post.content;
+    } else {
+        document.getElementById('post-title').textContent = 'Post not found';
+        document.getElementById('post-content').innerHTML = '';
+    }
+}
+
+// Initialize the correct function based on the page
+if (document.getElementById('posts')) {
+    displayPosts();
+} else if (document.getElementById('post-content')) {
+    displayPost();
+}
+
+
+
